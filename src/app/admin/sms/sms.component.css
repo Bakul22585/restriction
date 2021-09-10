@@ -1,0 +1,13 @@
+.padding-left-right-0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+.group {
+    width: 41%;
+    margin-left: 15px;
+}
+.select-user {
+    background-color: gray;
+    color: #ffffff;
+    padding: 0px 5px;
+}

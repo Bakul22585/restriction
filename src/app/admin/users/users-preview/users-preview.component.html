@@ -1,0 +1,49 @@
+<div class="m-portlet">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption" style="width: 100%">
+      <div class="m-portlet__head-title" style="width: 100%">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text">Identity Card</h3>
+        <div class="text-right" style="position: absolute;right: 2%;">
+          <button mat-raised-button (click)="IdPrint()" >Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-portlet__body" style="max-height: 100%;" id="printuseridcard">
+    <div class="id-card-tag"></div>
+    <div class="id-card-tag-strip"></div>
+    <div class="id-card-hook"></div>
+    <div class="id-card-holder">
+      <div class="id-card">
+        <div class="header">
+          {{ProjectName}}
+        </div>
+        <div class="photo" *ngIf="url">
+          <img src="{{userData.profile_pic ? userData.profile_pic : 'http://temple.etechlab.in/assets/app/media/img/users/img_avatar.png' }}" style="width: 100px;height: 100px;border-radius: 50%;">
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6 user-detail" style="display: inline-block;">
+            <h2>{{userData.first_name ? userData.first_name : 'Denish' }} {{userData.last_name ? userData.last_name : 'Sonani' }}</h2>
+            <span>{{userData.roles_name ? userData.roles_name : '' }}</span>
+          </div>
+          <div class="col-md-6" style="display: inline-block">
+            <div class="qr-code">
+              <qrcode [qrdata]="userData.id" [size]="75" [level]="'H'"></qrcode>
+            </div>
+          </div>
+        </div>
+        <!-- <h3>www.onetikk.info</h3> -->
+        <hr>
+        <p>{{userData.block_no ? userData.block_no : 'D-1' }}, {{userData.address ? userData.address : 'Sudarshan City Homes' }}, <p>
+        <p>{{userData.city_name ? userData.city_name : 'Surat' }}, {{userData.state_name ? userData.state_name : 'Gujarat' }} - {{ userData.postcode ? userData.postcode : '395010' }} {{userData.country_name ? userData.country_name : 'India' }}.</p>
+        <hr>
+        <p class="p-footer">{{userData.phone_no ? userData.phone_no : '9446062493' }} </p>
+        <p>{{ userData.email ? userData.email : 'info@igeektech.com' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

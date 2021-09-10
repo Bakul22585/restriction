@@ -1,0 +1,106 @@
+.id-card-holder {
+    width: 233px;
+    padding: 4px;
+    margin: 0 auto;
+    background-color: #1f1f1f;
+    border-radius: 5px;
+    position: relative;
+}
+.id-card-holder:after {
+    content: '';
+    width: 7px;
+    display: block;
+    background-color: #0a0a0a;
+    height: 100px;
+    position: absolute;
+    top: 105px;
+    border-radius: 0 5px 5px 0;
+}
+.id-card-holder:before {
+    content: '';
+    width: 7px;
+    display: block;
+    background-color: #0a0a0a;
+    height: 100px;
+    position: absolute;
+    top: 105px;
+    left: 220px;
+    border-radius: 5px 0 0 5px;
+}
+.id-card {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 1.5px 0px #b9b9b9;
+}
+.id-card img {
+    margin: 0 auto;
+}
+.header {
+    font: 1.5em sans-serif;
+    text-align: center;
+}
+.photo img {
+    width: 80px;
+    margin-top: 15px;
+    text-align: center;
+}
+h2 {
+    font-size: 15px;
+    margin: 5px 0;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+    font-family: 'Poppins';
+}
+h3 {
+    font-size: 12px;
+    margin: 2.5px 0;
+    font-weight: 300;
+}
+.qr-code img {
+    width: 50px;
+}
+p {
+    font-size: 12px;
+    margin: 2px;
+    font-family: 'Poppins';
+}
+.p-footer {
+    font-size: 11px;
+    margin: 1.5px;
+}
+.id-card-hook {
+    background-color: #000;
+    width: 70px;
+    margin: 0 auto;
+    height: 15px;
+    border-radius: 5px 5px 0 0;
+}
+.id-card-hook:after {
+    content: '';
+    background-color: #d7d6d3;
+    width: 47px;
+    height: 6px;
+    display: block;
+    margin: 0px auto;
+    position: relative;
+    top: 6px;
+    border-radius: 4px;
+}
+.user-detail {
+    margin-top: 0px;
+    margin-bottom: .5rem;
+    font-family: 'Poppins';
+}
+.col-md-3 {
+    width: 25%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    display: block;
+}

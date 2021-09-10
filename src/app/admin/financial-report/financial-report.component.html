@@ -1,0 +1,258 @@
+<div class="m-portlet">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption">
+      <div class="m-portlet__head-title">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text" translate="FINANCIAL_REPORT.MANAGE_FINANCIAL_REPORT">
+          Manage Financial Report
+        </h3>
+      </div>
+    </div>
+  </div>
+  <form class="m-form m-form--label-align-right">
+    <div class="m-portlet__body">
+      <div class="m-form__group form-group row">
+        <div class="col-lg-6">
+          <div class="m-radio-list">
+            <mat-radio-group [(ngModel)]="placeselection" name="placeselection" layout="row" (change)="resetvalue()">
+              <mat-radio-button value="user">User</mat-radio-button>
+              <mat-radio-button value="family">Family</mat-radio-button>
+              <mat-radio-button value="event">Event</mat-radio-button>
+              <mat-radio-button value="donation">Donation</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="m-form__group form-group row">
+        <div class="col-lg-12">
+          <label class="col-md-1" style="float: left;padding-left: 0;">Type</label>
+          <div class="m-radio-list">
+            <mat-radio-group [(ngModel)]="ReportType" name="type" layout="row">
+              <mat-radio-button value="main">Main Member</mat-radio-button>
+              <mat-radio-button value="family">All member include family</mat-radio-button>
+              <mat-radio-button value="age">Age</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="form-group m-form__group row">
+        <div class="col-lg-6" *ngIf="placeselection == 'Village' ">
+          <ng-select class="custom" [items]="villages" bindLabel="village_name" bindValue="id" placeholder="Select Village"
+            name="village" [(ngModel)]="selectedvillage"></ng-select>
+        </div>
+        <div class="col-lg-6" *ngIf="placeselection == 'Area'">
+          <ng-select [items]="area" bindLabel="area_name" bindValue="id" placeholder="Select Area" name="area"
+            [(ngModel)]="selectedarea"></ng-select>
+        </div>
+      </div> -->
+      <div class="form-group m-form__group row" *ngIf="placeselection == 'donation'">
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <input type="number" matInput [(ngModel)]="mindonation" name="min_donation" placeholder="Min" [min]="1">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <input type="number" matInput [(ngModel)]="maxdonation" name="max_donation" placeholder="Max" [min]="1">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-button-toggle-group name="option" [(ngModel)]="donationFilter">
+            <mat-button-toggle value="1" style="width: 25%">Last Month</mat-button-toggle>
+            <mat-button-toggle value="2" style="width: 25%">Last 6 Month</mat-button-toggle>
+            <mat-button-toggle value="3" style="width: 25%">Last Year</mat-button-toggle>
+            <mat-button-toggle value="4" style="width: 25%" (click)="eventranddatepicker.click()">Custom Date</mat-button-toggle>
+          </mat-button-toggle-group>
+          <input type="text" name="customerDate" [(ngModel)]="customerDate" #eventranddatepicker placeholder="Daterangepicker" class="form-control col-3" bsDaterangepicker
+            style="border: 0px;padding: 0px;margin: 0px;width: 0px;"
+            > <!-- (bsValueChange)="GetEventChat($event)" -->
+        </div>
+      </div>
+      <div class="form-group m-form__group row" *ngIf="placeselection != 'donation'">
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="fromdatepicker" placeholder="Choose a From Date" [(ngModel)]="fromdate"
+              [max]="todate" name="fromdate" readonly (focus)="fromdatepicker.open();" (click)="fromdatepicker.open();">
+            <mat-datepicker-toggle matSuffix [for]="fromdatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromdatepicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="todatepicker" placeholder="Choose a To Date" [(ngModel)]="todate"
+              readonly (focus)="todatepicker.open();" [min]="fromdate" name="todate" (click)="todatepicker.open();">
+            <mat-datepicker-toggle matSuffix [for]="todatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #todatepicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="m-portlet__foot m-portlet__foot--fit">
+        <div class="m-form__actions m-form__actions">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <button mat-raised-button color="primary" (click)="onSubmit();">Submit</button>&nbsp; &nbsp;
+              <button mat-raised-button type="reset" (click)="resetvalue()">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- STYCKY PORTLET CONTROL | See structure => /metronic/sticky-form-actions -->
+<m-portlet [options]="{headLarge: true}" [loading$]="dataSource.loading$">
+  <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+  <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+
+  <!-- start::Header (attributtes: mPortletHeadTitle|mPortletHeadTools) -->
+  <ng-container mPortletHeadTitle>
+    <div class="m-portlet__head-title">
+      <h3 class="m-portlet__head-text">
+        <span translate="FINANCIAL_REPORT.FINANCIAL_REPORT_LIST">Village list</span>
+      </h3>
+    </div>
+    <!-- For localisations we use @ngx-translate | See off. documentations => https://github.com/ngx-translate/core -->
+    <!-- Localization libraries (en/fr) are here => '../../../.././config/i18n/en.ts|fr.ts' -->
+  </ng-container>
+  <!-- start::FILTERS & GROUP ACTIONS -->
+  <ng-container mPortletBody>
+    <div class="col-md-12 text-right" *ngIf="dataSource.hasItems">
+      <button mat-raised-button (click)="ReportPrint()">Print</button> &nbsp;
+      <button mat-raised-button (click)="DownloadXLX()">Export</button>
+    </div>
+    <!-- MATERIAL TABLE | Binded to datasources -->
+    <!-- See off.documentations 'https://material.angular.io/components/table/overview' -->
+    <div class="mat-table__wrapper">
+      <mat-table id="PrintReport" class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort
+        matSortActive="id" matSortDirection="desc" matSortDisableClear style="min-width: 100%;">
+        <!-- Checkbox Column -->
+
+        <!-- Table with selection -->
+        <!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+
+        <ng-container matColumnDef="serial_id">
+          <mat-header-cell *matHeaderCellDef> Serial No </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="first_name">
+          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.first_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="last_name">
+          <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.last_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="event_name">
+          <mat-header-cell *matHeaderCellDef>Event Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.event_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="desc">
+          <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.description}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="relation">
+          <mat-header-cell *matHeaderCellDef>Relation</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.user_relation}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="place">
+          <mat-header-cell *matHeaderCellDef>Place</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.place}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="phone_no">
+          <mat-header-cell *matHeaderCellDef>Phone no.</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.phone_no}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fund">
+          <mat-header-cell *matHeaderCellDef>Fund</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.fund  | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="expence">
+          <mat-header-cell *matHeaderCellDef>Expence</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.expence  | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actual_paid">
+          <mat-header-cell *matHeaderCellDef>Actual Paid</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.actual_paid  | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="remaining_amount">
+          <mat-header-cell *matHeaderCellDef>Remaining Amount</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.remaining_amount | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="village_id">
+          <mat-header-cell *matHeaderCellDef>Village</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.village_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="role_id">
+          <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.roles_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="area_id">
+          <mat-header-cell *matHeaderCellDef>Area</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.area_name}}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="row.is_main_member == 1 ? 'main_member' : ''" (click)="selectRow(row)" style="cursor: pointer;"></mat-row>
+      </mat-table>
+      <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+      <!-- Message for empty data  -->
+    </div>
+
+    <!-- start: BOTTOM -->
+    <div class="mat-table__bottom">
+      <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+      <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+      <!-- MATERIAL PAGINATOR | Binded to dasources -->
+      <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+        [showFirstLastButtons]="true" (page)="SetPagination($event)"></mat-paginator>
+    </div>
+  </ng-container>
+  <!-- end: BOTTOM -->
+</m-portlet>

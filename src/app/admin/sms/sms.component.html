@@ -1,0 +1,230 @@
+<div class="row">
+  <div class="col-xl-12 col-lg-12">
+    <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+      <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+          <div class="m-portlet__head-title">
+            <span class="m-portlet__head-icon m--hide">
+              <i class="la la-gear"></i>
+            </span>
+            <h3 class="m-portlet__head-text" translate="EVENTS.MANAGE_EVENTS">
+              {{HeadText}}
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="m-portlet__body">
+        <form class="m-form m-form--fit m-form--label-align-right" [formGroup]="smsForm">
+          <div class="m-portlet__body">
+            <!-- <div class="form-group m-form__group row">
+              <div class="col-10 ml-auto">
+                <h3 class="m-form__section">Personal Details</h3>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Name</label>
+                  <div class="col-7">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Name" formControlName="event_name">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Description</label>
+                  <div class="col-7">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Description" formControlName="description">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Handler Name</label>
+                  <div class="col-7">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Handler Name" formControlName="handler_id">
+                        <mat-option *ngFor="let user of AllUser" [value]="user.id">{{user.first_name}} {{user.last_name}} ({{user.village_name}})</mat-option>
+                        <!-- <mat-option value="2">2</mat-option>
+                        <mat-option value="3">3</mat-option>
+                        <mat-option value="4">4</mat-option> -->
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Profile</label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="file" (change)="onFileChange($event)" formControlName="profile" (focus)="OnCloseDateTimePicker()">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group m-form__group row" *ngIf="startdatetime">
+                  <div class="col-12">
+                    <dl-date-time-picker *ngIf="startdatetime" startView="day" maxView="year" minView="minute" minuteStep="5" (change)="onCustomDateChange($event)"></dl-date-time-picker>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Start DateTime</label>
+                  <div class="col-7">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Choose a Date" (focus)="startdatetime = !startdatetime" formControlName="event_start_datetime"/>
+                      <!-- <input matInput [matDatepicker]="picker" placeholder="Choose a date" required
+                        readonly (focus)="picker.open();" (click)="picker.open();" formControlName="start_datetime">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker> -->
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row" *ngIf="SetEndDateTime == false">
+                  <div class="col-12 text-center">
+                      <button mat-raised-button (click)="SetEndDatTimeView()">Set Different End DateTime</button>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row" *ngIf="SetEndDateTime">
+                  <div class="col-12">
+                    <dl-date-time-picker *ngIf="enddatetime" startView="day" maxView="year" minView="minute" minuteStep="5" (change)="onEndDateChange($event)"></dl-date-time-picker>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row" *ngIf="SetEndDateTime">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">End DateTime</label>
+                  <div class="col-7">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Choose a Date" (focus)="enddatetime = !enddatetime" formControlName="event_end_datetime"/>
+                    </mat-form-field>
+                    <!-- <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="endtime" placeholder="Choose a date" required readonly (focus)="endtime.open() || OnCloseDateTimePicker()"
+                        (click)="endtime.open();" formControlName="end_datetime">
+                      <mat-datepicker-toggle matSuffix [for]="endtime"></mat-datepicker-toggle>
+                      <mat-datepicker #endtime></mat-datepicker>
+                    </mat-form-field> -->
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Place</label>
+                  <div class="col-7">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Place" formControlName="place">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Patrika Formate</label>
+                  <div class="col-7">
+                    <input class="form-control m-input" type="file" (change)="onFileChangeFormate($event)" formControlName="formate_str">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Group</label>
+                  <div class="col-10">
+                    <label for="example-text-input" class="col-3 col-form-label padding-left-right-0">
+                      <mat-form-field style="max-width: 100%;">
+                        <mat-select placeholder="Filter" (valueChange)="GetFilterValue($event)">
+                          <mat-option value="">Select</mat-option>
+                          <mat-option value="village">Village</mat-option>
+                          <mat-option value="area">Area</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </label>
+                    <mat-form-field class="group">
+                      <mat-select placeholder="Select" [multiple]="true" #multiSelect (valueChange)="GetVillageName($event)">
+                        <ngx-mat-select-search [formControl]="villageMultiFilterCtrl"></ngx-mat-select-search>
+                        <mat-option *ngFor="let village of FilterData" [value]="village.id">{{village.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6">
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Area</label>
+                  <div class="col-7">
+                    <mat-form-field class="group">
+                      <mat-select placeholder="Area" [multiple]="true" #multiSelect (valueChange)="GetAreaName($event)">
+                        <ngx-mat-select-search></ngx-mat-select-search>
+                        <mat-option *ngFor="let area of AllArea" [value]="area.area_name">{{area.area_name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">Assign User</label>
+                  <div class="col-8" style="border: 1px solid #ccc;margin-left: 28px;"><!--padding: 7px 0px 153px 6px;-->
+                    <mat-form-field class="example-full-width">
+                      <input matInput (keyup)="SearchAssignLeftUser($event)">
+                    </mat-form-field>
+                    <perfect-scrollbar style="height: 37vh;">
+                      <div *ngFor="let user of AssignLeft;let i = index" (click)="SetLeftArrayIndex(user.id)">
+                        <span [ngClass]="CheckLeftArraySelectUser(user.id) ? 'select-user': ''">{{user.first_name}} {{user.last_name}}</span>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button mat-raised-button [disabled]="AssignLeft.length == 0" (click)="MoveAllRight()" style="margin-bottom: 5%;">>></button>
+                <button mat-raised-button [disabled]="AssignLeft.length == 0" (click)="MoveRight()" style="margin-bottom: 5%;">></button>
+                <button mat-raised-button [disabled]="AssignRight.length == 0" (click)="MoveLeft()" style="margin-bottom: 5%;"><</button>
+                <button mat-raised-button [disabled]="AssignRight.length == 0" (click)="MoveAllLeft()"><<</button>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group m-form__group row">
+                  <div class="col-8" style="border: 1px solid #ccc;margin-left: 28px;"><!--padding: 7px 0px 153px 6px;-->
+                    <mat-form-field class="example-full-width">
+                      <input matInput > <!--(keyup)="SearchAssignRightUser($event)"-->
+                    </mat-form-field>
+                    <perfect-scrollbar style="height: 37vh;">
+                      <div *ngFor="let user of AssignRight;let i = index" (click)="SetRightArrayIndex(user.id)">
+                        <span [ngClass]="CheckRightArraySelectUser(user.id) ? 'select-user': ''">{{user.first_name}} {{user.last_name}}</span>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+                <div class="form-group m-form__group row">
+                  <label for="example-text-input" class="col-2 col-form-label padding-left-right-0">&nbsp;</label>
+                  <div class="col-7">
+                    <button mat-raised-button *ngIf="ShowSMSEditor == false" (click)="ShowSMSEditor = !ShowSMSEditor">Preview SMS</button>
+                    <!-- <mat-form-field class="example-full-width">
+                      <input matInput formControlName="sms">
+                    </mat-form-field> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12" *ngIf="ShowSMSEditor" style="margin-bottom: 1%;padding-left: 0;">
+                <button mat-raised-button (click)="AddShortCode('[USER_NAME]')">USER NAME</button>&nbsp;
+                <button mat-raised-button (click)="AddShortCode('[EVENT_NAME]')">EVENT NAME</button>&nbsp;
+                <button mat-raised-button (click)="AddShortCode('[EVENT_PLACE]')">EVENT PLACE</button>&nbsp;
+                <button mat-raised-button (click)="AddShortCode('[EVENT_DATE]')">EVENT DATE</button>
+              </div>
+              <app-ngx-editor *ngIf="ShowSMSEditor" [placeholder]="'Enter text here...'" [spellcheck]="true" formControlName="sms"></app-ngx-editor>
+            </div>
+          </div>
+          <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="text-center">
+                    <button mat-raised-button color="primary" (click)="submit()">{{SubmitButton}}</button>&nbsp;&nbsp;
+                    <!-- <button class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="submit()">Save changes</button>&nbsp;&nbsp; -->
+                    <button mat-raised-button (click)="EventPage()">Cancel</button>
+                    <!-- <button class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="m-portlet">
+  <div class="m-portlet__head" style="height: auto;padding: 1rem 2.2rem;">
+    <div class="m-portlet__head-caption" style="width: 100%">
+      <div class="m-portlet__head-title" style="width: 100%">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text">
+          {{MainUser.first_name}} {{MainUser.middle_name}} {{MainUser.last_name}}<br>
+          {{MainUser.block_no}}- {{MainUser.address}}, {{MainUser.area_name}}<br>
+          {{MainUser.city_name}}, {{MainUser.state_name}}- {{MainUser.postcode}} {{MainUser.country_name}}.
+        </h3>
+        <h3 class="m-portlet__head-text" style="position: absolute;right: 2%;">
+          {{MainUser.phone_no}}<br>{{MainUser.village_name}}<br>{{TotalUser}}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="m-portlet__body">
+    <div class="m-portlet__body-progress">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </div>
+
+    <div class="mat-table__wrapper">
+      <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort matSortActive="id" matSortDirection="desc"
+        matSortDisableClear style="min-width: 100%;">
+
+        <ng-container matColumnDef="serial_id">
+          <mat-header-cell *matHeaderCellDef> Serial No </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="first_name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.first_name}}
+          </mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="relation">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Relation</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.relation}}
+          </mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="phone_no">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Phone no.</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.phone_no}}
+          </mat-cell>
+        </ng-container>
+    
+        <!-- <ng-container matColumnDef="village_id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Village</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.village_name}}
+          </mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="role_id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Role</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.roles_name}}
+          </mat-cell>
+        </ng-container> -->
+    
+        <ng-container matColumnDef="area_id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Area</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.area_name}}
+          </mat-cell>
+        </ng-container>
+    
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+      <!-- Message for empty data  -->
+    </div>
+    
+    <!-- start: BOTTOM -->
+    <div class="mat-table__bottom">
+      <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+      <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+      <!-- MATERIAL PAGINATOR | Binded to dasources -->
+      <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+        [showFirstLastButtons]="true" (page)="SetPagination($event)"></mat-paginator>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.active_message_user {
+  background-color: whitesmoke;
+}
+
+.m-card-profile {
+  cursor: pointer;
+}
+
+.DeleteUser {
+  display: none;
+}
+
+.m-card-profile__pic:hover .DeleteUser {
+  display: inline-block;
+}

@@ -1,0 +1,95 @@
+<!-- begin:: Page -->
+<div class="col-md-12 loader" id="mainloader" style="display: none;">
+    <div class="text-center">
+        <mat-spinner #mainloader [diameter]="40" style="margin: 0 auto;position: absolute;top: 50%;left: 50%;z-index: 999;"></mat-spinner>
+    </div>
+</div>
+<ng-container *ngIf="selfLayout !== 'blank' ; else selfLayoutBlank">
+    <m-header></m-header>
+
+    <!-- begin::Body -->
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body" [ngClass]="pageBodyClass$ | async">
+        <!-- BEGIN:: Aside Left -->
+        <button class="m-aside-left-close" id="m_aside_left_close_btn" [ngClass]="asideLeftCloseClass | mJoin">
+            <i class="la la-close"></i>
+        </button>
+        <ng-container *ngIf="asideLeftDisplay">
+            <m-aside-left></m-aside-left>
+        </ng-container>
+        <!-- END:: Aside Left -->
+
+        <div #mContentWrapper class="m-grid__item m-grid__item--fluid m-wrapper">
+            <div class="m-content" #mContent>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <ng-container *ngIf="asideRightDisplay">
+            <m-aside-right></m-aside-right>
+        </ng-container>
+        <!-- <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon"><i class="material-icons">content_copy</i></div>
+                    <p class="card-category">Total User</p>
+                    <h3 class="card-title">49</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons text-danger">warning</i>
+                        <a href="#pablo">Get More Space...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon"><i class="material-icons">store</i></div>
+                    <p class="card-category">Revenue</p>
+                    <h3 class="card-title">$34,245</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats"><i class="material-icons">date_range</i> Last 24
+                        Hours </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-icon"><i class="material-icons">info_outline</i></div>
+                    <p class="card-category">Fixed Issues</p>
+                    <h3 class="card-title">75</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats"><i class="material-icons">local_offer</i> Tracked
+                        from Github </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon"><i class="fa fa-twitter"></i></div>
+                    <p class="card-category">Followers</p>
+                    <h3 class="card-title">+245</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats"><i class="material-icons">update</i> Just Updated
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- end:: Body -->
+
+    <m-footer></m-footer>
+    <m-quick-sidebar></m-quick-sidebar>
+    <!-- <m-tooltips></m-tooltips> -->
+    <m-scroll-top></m-scroll-top>
+</ng-container>
+
+<ng-template #selfLayoutBlank>
+    <router-outlet></router-outlet>
+</ng-template>
+<!-- end:: Page -->

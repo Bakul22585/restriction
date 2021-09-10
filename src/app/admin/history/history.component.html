@@ -1,0 +1,182 @@
+<!-- STYCKY PORTLET CONTROL | See structure => /metronic/sticky-form-actions -->
+<m-portlet [options]="{headLarge: true}" [loading$]="dataSource.loading$">
+  <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+  <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+
+  <!-- start::Header (attributtes: mPortletHeadTitle|mPortletHeadTools) -->
+  <ng-container mPortletHeadTitle>
+    <div class="m-portlet__head-title">
+      <h3 class="m-portlet__head-text">
+        <span translate="HISTORYS.HISTORYS_LIST">History list</span>
+      </h3>
+    </div>
+    <!-- For localisations we use @ngx-translate | See off. documentations => https://github.com/ngx-translate/core -->
+    <!-- Localization libraries (en/fr) are here => '../../../.././config/i18n/en.ts|fr.ts' -->
+  </ng-container>
+  <!-- start::FILTERS & GROUP ACTIONS -->
+  <ng-container mPortletBody>
+    <div class="m-form">
+      <!-- start::FILTERS -->
+      <div class="m-form__filtration">
+        <div class="row align-items-center">
+
+          <div class="col-md-2 m--margin-bottom-10-mobile">
+            <!-- 'm  margin-bottom-10-mobile' for adaptive make-up  -->
+            <div class="m-form__control">
+              <mat-form-field class="mat-form-field-fluid">
+                <mat-select [(value)]="filterStatus" (selectionChange)="loadHistorysList()">
+                  <mat-option value="">All</mat-option>
+                  <mat-option value="User Name">User Name</mat-option>
+                  <mat-option value="Module">Module</mat-option>
+                  <mat-option value="Description">Description</mat-option>
+                  <mat-option value="Action">Action</mat-option>
+                  <!-- <mat-option value="Date Time">Date Time</mat-option> -->
+                </mat-select>
+                <mat-hint align="start">
+                  <strong>Filter</strong> by Status
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-md-2 m--margin-bottom-10-mobile">
+            <mat-form-field class="mat-form-field-fluid">
+              <input matInput placeholder="Search role" #searchInput placeholder="Search">
+              <mat-hint align="start">
+                <strong>Search</strong> in all fields
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+      <!-- end::FILTERS -->
+
+      <!-- start::GROUP ACTIONS -->
+      <!-- Group actions list: 'Delete selected' | 'Fetch selected' | 'Update status for selected' -->
+      <!-- Group actions are shared for all LISTS | See '../../_shared' folder -->
+      <div class="row align-items-center collapse m-form__group-actions m--margin-top-20 m--margin-bottom-20" [ngClass]="{'show' : selection.selected.length > 0}">
+        <!-- We show 'Group Actions' div if smth are selected -->
+        <div class="col-xl-12">
+          <div class="m-form__group m-form__group--inline">
+            <div class="m-form__label m-form__label-no-wrap">
+              <label class="m--font-bold m--font-danger-">
+                <span translate="ECOMMERCE.COMMON.SELECTED_RECORDS_COUNT"></span> {{
+                selection.selected.length }}
+              </label>
+              <!-- selectedCountsTitle => function from codeBehind (customer-list.component.ts file) -->
+              <!-- selectedCountsTitle => just returns title of selected items count -->
+              <!-- for example: Selected records count: 4 -->
+            </div>
+            <div class="m-form__control m-form__group--inline">
+              <!-- <button (click)="deleteRoles()" mat-raised-button color="accent" matTooltip="Delete selected roles">
+                <mat-icon>delete</mat-icon>
+                Delete All
+              </button>
+              &nbsp; -->
+              <!-- Call 'delete-entity-dialog' from _shared folder -->
+              <!-- <button (click)="fetchRoles()" mat-raised-button matTooltip="Fetch selected roles">
+                <mat-icon>clear_all</mat-icon>
+                Fetch Selected
+              </button>
+              &nbsp; -->
+              <!-- Call 'fetch-entity-dialog' from _shared folder -->
+              <!-- <button (click)="updateStatusForRoles()" mat-raised-button matTooltip="Update status for selected roles">
+                <mat-icon>update</mat-icon>
+                Update status
+              </button> -->
+              <!-- Call 'update-stated-dialog' from _shared folder -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end::GROUP ACTIONS -->
+    </div>
+    <!-- end::FILTERS & GROUP ACTIONS -->
+
+    <!-- MATERIAL TABLE | Binded to datasources -->
+    <!-- See off.documentations 'https://material.angular.io/components/table/overview' -->
+    <div class="mat-table__wrapper">
+      <div class="col-md-12 text-right" *ngIf="dataSource.hasItems">
+        <button mat-raised-button (click)="ReportPrint()">Print</button>&nbsp;
+        <button mat-raised-button (click)="DownloadXLX()">Export</button>
+      </div>
+      <mat-table id="PrintReport" class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort
+        matSortActive="id" matSortDirection="desc" matSortDisableClear style="min-width: 100%;">
+        <!-- Checkbox Column -->
+
+        <!-- Table with selection -->
+        <!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+        <!-- <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </mat-header-cell>
+
+          <mat-cell *matCellDef="let row" class="mat-column-checkbox">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container> -->
+
+        <ng-container matColumnDef="serial_id">
+          <mat-header-cell *matHeaderCellDef> Serial No </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="user_id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>User Name</mat-header-cell>
+          <mat-cell *matCellDef="let history">
+            {{history.user_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="module">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Module</mat-header-cell>
+          <mat-cell *matCellDef="let history">
+            {{history.module}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+          <mat-cell *matCellDef="let history">
+            {{history.description}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+          <mat-cell *matCellDef="let history">
+            {{history.action}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="added_on">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Date Time</mat-header-cell>
+          <mat-cell *matCellDef="let history">
+            {{history.added_on | date: 'dd/MM/yyyy h:mm a'}}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+      <!-- Message for empty data  -->
+    </div>
+
+    <!-- start: BOTTOM -->
+    <div class="mat-table__bottom">
+      <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+      <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+      <!-- MATERIAL PAGINATOR | Binded to dasources -->
+      <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+        [showFirstLastButtons]="true" (page)="SetPagination($event)"></mat-paginator>
+    </div>
+  </ng-container>
+  <!-- end: BOTTOM -->
+</m-portlet>

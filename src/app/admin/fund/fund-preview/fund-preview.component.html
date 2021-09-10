@@ -1,0 +1,83 @@
+<div class="m-portlet" >
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption" style="width: 100%">
+      <div class="m-portlet__head-title" style="width: 100%">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text">Fund Installment List</h3>
+        <div class="text-right" style="position: absolute;right: 4%;">
+            <button mat-raised-button (click)="ReceiptPrint()" >Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-portlet__body">
+    <div class="m-portlet__body-progress">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </div>
+    <m-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+      Oh snap! Change a few things up and try submitting again.
+    </m-alert>
+    <div class="row" id="printreceipt">
+      <div class="col-md-12" *ngIf="DonationUserData != undefined" style="font-family: sans-serif;">
+        <div class="margin-bottom"><b>Name:</b>&nbsp;<span>{{DonationUserData.first_name}} {{DonationUserData.last_name}} ({{DonationUserData.village_name}})</span><br></div>
+        <div class="margin-bottom"><b>Phone No:</b>&nbsp;<span>{{DonationUserData.phone_no}}</span><br></div>
+        <div class="margin-bottom"><b>Total Donation:</b>&nbsp;<span>{{DonationUserData.total_amount | currency: 'INR' : 'symbol' : '1.0-0'}}</span><br></div>
+        <div class="margin-bottom"><b>Status:</b>&nbsp;<span>{{DonationUserData.fund_status == '1' ? 'Completed': 'Remaining'}}</span></div>
+      </div>
+      <br>
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="serial_id">
+          <th mat-header-cell *matHeaderCellDef> Serial No </th>
+          <td mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="paid_amount">
+          <th mat-header-cell *matHeaderCellDef> Paid Amount </th>
+          <td mat-cell *matCellDef="let user"> {{user.paid_amount| currency: 'INR' : 'symbol' : '1.0-0'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="paid_by">
+          <th mat-header-cell *matHeaderCellDef> Paid By </th>
+          <td mat-cell *matCellDef="let user"> {{getItemPayentByTypeString(user.paid_by)}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="paid_datetime">
+          <th mat-header-cell *matHeaderCellDef> Paid Date </th>
+          <td mat-cell *matCellDef="let user"> {{user.paid_datetime| date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cheque_clearance_date">
+          <th mat-header-cell *matHeaderCellDef> Cheque Clearance Date </th>
+          <td mat-cell *matCellDef="let user"> {{user.cheque_clearance_date| date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cheque_no">
+          <th mat-header-cell *matHeaderCellDef> Cheque Number </th>
+          <td mat-cell *matCellDef="let user"> {{user.cheque_no}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Cheque Status </th>
+          <td mat-cell *matCellDef="let user"> <ui-switch *ngIf="user.paid_by == '2'" [checked]="user.status == '1' ? true : false" [disabled]="user.status == '1' ? true : false" (change)="ClearCheque(user)"></ui-switch></td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let user"> 
+            <button mat-icon-button color="warn" *ngIf="user.paid_by == 2" [disabled]="user.status == 1 ? true : false" matTooltip="Delete fundpay" type="button" (click)="deleteFund(user)">
+              <mat-icon>delete</mat-icon>
+            </button> 
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+        [showFirstLastButtons]="true"  (page)="SetPagination($event)"></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="m-grid__item m-grid__item--fluid m-grid m-grid--desktop m-grid--ver-desktop m-grid--hor-tablet-and-mobile m-login m-login--6" id="m_login">
+	<div class="m-grid__item   m-grid__item--order-tablet-and-mobile-2 m-grid m-grid--hor m-login__aside" [ngStyle]="{'background-image': 'url(' + AdminData.login_page_image +')'}" style="background-repeat: no-repeat;background-size: 100% 100%;">
+		<div class="m-grid__item">
+			<div class="m-login__logo">
+				<a href="#" class="m-brand__logo-wrapper" style="color: white;font-size: 20px;text-decoration: none;">
+					{{AdminData.project_name}}
+				</a>
+			</div>
+		</div>
+
+		<div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver">
+			<div class="m-grid__item m-grid__item--middle">
+				<!-- <span class="m-login__title">Welcome to {{AdminData.project_name}}!</span>
+				<span class="m-login__subtitle">We provide fabulous service!</span> -->
+			</div>
+		</div>
+
+		<div class="m-grid__item">
+			<div class="m-login__info">
+				<div class="m-login__section">
+					<a href="javascript:;" class="m-link" style="text-decoration: none;">&copy; {{today | date:'yyyy'}} {{AdminData.project_name}}</a>
+				</div>
+				<!-- <div class="m-login__section">
+					<a href="javascript:;" class="m-link">Privacy</a>
+					<a href="javascript:;" class="m-link">Legal</a>
+					<a href="javascript:;" class="m-link">Contact</a>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+	<div class="m-grid__item m-grid__item--fluid  m-grid__item--order-tablet-and-mobile-1 m-login__wrapper">
+		<!--begin::Head-->
+		<div class="m-login__head m--hide">
+			<span translate="AUTH.GENERAL.NO_ACCOUNT">Don't have an account?</span>
+			<a href="javascript:;" (click)="register()" class="m-link m--font-danger" translate="AUTH.GENERAL.SIGNUP_BUTTON">Sign Up</a>
+		</div>
+		<!--end::Head-->
+
+		<!--begin::Body-->
+		<div class="m-login__body">
+			<m-login *ngIf="action === 'login'" [(action)]="action"></m-login>
+
+			<m-register *ngIf="action === 'register'" [(action)]="action"></m-register>
+
+			<m-forgot-password *ngIf="action === 'forgot-password'" [(action)]="action"></m-forgot-password>
+			
+			<app-reset-password *ngIf="action === 'reset-password'" [(action)]="action"></app-reset-password>
+		</div>
+		<!--end::Body-->
+	</div>
+</div>

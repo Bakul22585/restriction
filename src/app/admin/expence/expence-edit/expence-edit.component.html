@@ -1,0 +1,172 @@
+<div class="m-portlet">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption">
+      <div class="m-portlet__head-title">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text">
+          Expense
+        </h3>
+      </div>
+    </div>
+  </div>
+
+  <form class="m-form m-form--label-align-right" [formGroup]="fundForm" novalidate>
+    <div class="m-portlet__body">
+      <div class="m-form__section m-form__section--first">
+        <div class="form-group m-form__group row">
+          <label class="col-lg-2 col-form-label">Events:</label>
+          <div class="col-lg-6">
+            <ng-select class="custom" [items]="event" bindLabel="event_name" bindValue="id" placeholder="Select Event"
+              formControlName="event_id" required></ng-select>
+          </div>
+        </div>
+        <div class="form-group m-form__group row">
+          <label class="col-lg-2 col-form-label">Users:</label>
+          <div class="col-lg-6">
+            <ng-select class="custom" [items]="users" bindLabel="first_name" bindValue="id" placeholder="Select User"
+              formControlName="user_id">
+              <ng-template ng-option-tmp let-item="item">
+                {{item.first_name}} {{item.middle_name}} {{item.last_name}} ({{item.village_name}})
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group m-form__group row">
+          <label class="col-lg-2 col-form-label">Purpose:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Purpose" formControlName="purpose">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group m-form__group row">
+          <label class="col-lg-2 col-form-label">Amount:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <span matPrefix>₹ &nbsp;</span>
+              <input numbersOnly matInput placeholder="Actual Amount" formControlName="actual_amount"
+                required>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- <div class="form-group m-form__group row">
+          <label class="col-lg-2 col-form-label">Is Installment Available:</label>
+          <div class="col-lg-6">
+            <mat-checkbox value="1" [(ngModel)]="is_installment" formControlName="is_installment_available"></mat-checkbox>
+          </div>
+        </div> -->
+        <div class="form-group m-form__group row" *ngIf="is_installment == true">
+          <label class="col-lg-2 col-form-label">Initial Paid Amount:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <input currencyMask matInput placeholder="Initial Paid Amount" formControlName="initial_paid_amount"
+                required [max]="actual_amount">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group m-form__group row" *ngIf="is_installment == true">
+          <label class="col-lg-2 col-form-label">Month Duration:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Month Duration" formControlName="month_duration" required (selectionChange)="paymentmethod()">
+                <mat-option value="1">1</mat-option>
+                <mat-option value="2">2</mat-option>
+                <mat-option value="3">3</mat-option>
+                <mat-option value="4">4</mat-option>
+                <mat-option value="5">5</mat-option>
+                <mat-option value="6">6</mat-option>
+                <mat-option value="7">7</mat-option>
+                <mat-option value="8">8</mat-option>
+                <mat-option value="9">9</mat-option>
+                <mat-option value="10">10</mat-option>
+                <mat-option value="11">11</mat-option>
+                <mat-option value="12">12</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="m-form__group form-group row" *ngIf="is_installment == true">
+          <label class="col-lg-2 col-form-label"></label>
+          <div class="col-lg-6">
+            <div class="m-radio-list">
+              <mat-radio-group [(ngModel)]="paymentMethod" formControlName="paymentmethod" layout="row">
+                <mat-radio-button value="1">Monthly</mat-radio-button>
+                <mat-radio-button value="2">Lump Sum</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-form__group row">
+          <label class="col-lg-2 col-form-label">Date:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="paid_end_date"
+                required [(ngModel)]="date" [min]="mindate" readonly (focus)="picker.open();" (click)="picker.open();">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="m-form__group form-group row">
+          <label class="col-lg-2 col-form-label">Payment By:</label>
+          <div class="col-lg-6">
+            <div class="m-radio-list">
+              <mat-radio-group formControlName="payent_by" required>
+                <p>
+                  <mat-radio-button value="1" (change)="ChequeRequired($event)">Cash</mat-radio-button>
+                </p>
+                <p>
+                  <mat-radio-button value="2" (change)="ChequeRequired($event)">Cheque</mat-radio-button>
+                </p>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-form__group row" *ngIf="payent_by == 2">
+          <label class="col-lg-2 col-form-label">Cheque Clearance Date:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="cheque_date" placeholder="Choose a date" formControlName="cheque_clearance_date"
+                [min]="mindate" (focus)="cheque_date.open();" (click)="cheque_date.open();">
+              <mat-datepicker-toggle matSuffix [for]="cheque_date"></mat-datepicker-toggle>
+              <mat-datepicker #cheque_date></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group m-form__group row" *ngIf="payent_by == 2">
+          <label class="col-lg-2 col-form-label">Cheque Number:</label>
+          <div class="col-lg-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Cheque Number" formControlName="cheque_no" numbersOnly>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group m-form__group row" *ngIf="payent_by == 2">
+          <label class="col-lg-2 col-form-label">Upload Photo:</label>
+          <div class="col-lg-6">
+            <button mat-button ngfSelect [(files)]="files" #uploadphoto accept="image/*" (click)="emptyfile()">
+              Upload Photo
+            </button><br><br>
+            <div *ngFor="let item of files;let i=index">
+              <div class="previewIcon" [ngfBackground]="item" style="cursor: pointer;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-portlet__foot m-portlet__foot--fit">
+      <div class="m-form__actions m-form__actions">
+        <div class="row">
+          <div class="col-lg-12 text-right">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>&nbsp;&nbsp;
+            <button mat-raised-button type="reset">Reset</button>&nbsp;&nbsp;
+            <button mat-raised-button (click)="onCancel()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,150 @@
+<div class="m-portlet">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption" style="width: 100%;">
+      <div class="m-portlet__head-title" style="width: 100%;">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text">{{title}}</h3>
+        <div class="text-left" style="position: absolute;right: 2%;">
+          <button mat-raised-button (click)="ReportPrint();" >Print</button>&nbsp;
+          <button mat-raised-button (click)="PersonalDownloadXLX()" >Export</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-portlet__body">
+    <div class="m-portlet__body-progress">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </div>
+    <div class="mat-table__wrapper" id="PersonalPrintReport">
+      <div class="col-md-12" *ngIf="DonationUserData != undefined && row.selection == 'family'" style="font-family: sans-serif;">
+        <div class="margin-bottom"><b>Name:</b>&nbsp;<span>{{DonationUserData.first_name}} {{DonationUserData.last_name}}
+            ({{DonationUserData.village_name}})</span><br></div>
+        <div class="margin-bottom"><b>Phone No:</b>&nbsp;<span>{{DonationUserData.phone_no}}</span><br></div>
+        <div class="margin-bottom"><b>Total Donation:</b>&nbsp;<span>{{DonationUserData.total_paid_installment  | currency: 'INR' : 'symbol' : '1.0-0'}}</span><br></div>
+      </div>
+      <div class="col-md-12" *ngIf="DonationUserData != undefined && row.selection == 'event'" style="font-family: sans-serif;">
+        <div class="margin-bottom"><b>Event Name:</b>&nbsp;<span>{{DonationUserData.event_name}}</span><br></div>
+        <div class="margin-bottom"><b>Location:</b>&nbsp;<span>{{DonationUserData.place}}</span><br></div>
+        <div class="margin-bottom"><b>Date:</b>&nbsp;<span>{{DonationUserData.start_datetime | date: 'M-d-y h:mm a'}}</span><br></div>
+        <div class="margin-bottom"><b>Total Donation:</b>&nbsp;<span>{{DonationUserData.fund  | currency: 'INR' : 'symbol' : '1.0-0'}}</span><br></div>
+      </div>
+      <br>
+      <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort matSortActive="id" matSortDirection="desc" style="min-width: 100%;">
+
+        <ng-container matColumnDef="serial_id">
+          <mat-header-cell *matHeaderCellDef> Serial No </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="first_name">
+          <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.first_name}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="last_name">
+          <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.last_name}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="event_name">
+          <mat-header-cell *matHeaderCellDef>Event Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.event_name}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="desc">
+          <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.description}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="handler_name">
+          <mat-header-cell *matHeaderCellDef>Handler Name</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.handler_name}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="place">
+          <mat-header-cell *matHeaderCellDef>Place</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.place}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="phone_no">
+          <mat-header-cell *matHeaderCellDef>Phone no.</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.phone_no}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actual_paid">
+          <mat-header-cell *matHeaderCellDef>Actual Paid</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.actual_paid  | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="remaining_amount">
+          <mat-header-cell *matHeaderCellDef>Remaining Amount</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.remaining_amount  | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="expence">
+          <mat-header-cell *matHeaderCellDef>Expence</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.expence   | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="donation">
+          <mat-header-cell *matHeaderCellDef>Donation</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.actual_amount   | currency: 'INR' : 'symbol' : '1.0-0'}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="village_id">
+          <mat-header-cell *matHeaderCellDef>Village</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.village_name}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="role_id">
+          <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.roles_name}}
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="area_id">
+          <mat-header-cell *matHeaderCellDef>Area</mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.area_name}}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="row.is_main_member == 1 ? 'main_member' : ''"></mat-row>
+      </mat-table>
+      <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+    </div>
+    <div class="mat-table__bottom">
+      <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+        [showFirstLastButtons]="true" (page)="SetPagination($event)"></mat-paginator>
+    </div>
+  </div>
+</div>

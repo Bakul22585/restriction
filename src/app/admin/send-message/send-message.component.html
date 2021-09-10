@@ -1,0 +1,83 @@
+<div class="m-portlet">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption">
+      <div class="m-portlet__head-title">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text" translate="SEND_MESSAGE.MANAGE_SEND_MESSAGE">
+          Manage Users Report
+        </h3>
+      </div>
+    </div>
+  </div>
+  <form class="m-form m-form--label-align-right">
+    <div class="m-portlet__body">
+      <div class="m-form__group form-group row">
+        <div class="col-lg-6">
+          <div class="m-radio-list">
+            <mat-radio-group [(ngModel)]="placeselection" name="placeselection" layout="row" (click)="resetvalue()"
+              (change)="resetvalue()">
+              <mat-radio-button value="all">All</mat-radio-button>
+              <mat-radio-button value="donation">Donation</mat-radio-button>
+              <mat-radio-button value="Village">Village</mat-radio-button>
+              <mat-radio-button value="Area">Area</mat-radio-button>
+              <mat-radio-button value="age">Age</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-form__group row">
+        <div class="col-lg-6" *ngIf="placeselection == 'Village' ">
+          <ng-select class="custom" [items]="villages" bindLabel="village_name" bindValue="id" placeholder="Select Village"
+            name="village" [(ngModel)]="selectedvillage"></ng-select>
+        </div>
+        <div class="col-lg-6" *ngIf="placeselection == 'Area'">
+          <ng-select [items]="area" bindLabel="area_name" bindValue="id" placeholder="Select Area" name="area"
+            [(ngModel)]="selectedarea"></ng-select>
+        </div>
+      </div>
+      <div class="form-group m-form__group row" *ngIf="placeselection == 'age'">
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <input type="number" matInput [(ngModel)]="minage" name="min_age" placeholder="Min Age" [min]="1">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <input type="number" matInput [(ngModel)]="maxage" name="max_age" placeholder="Max Age" [min]="1">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group m-form__group row" *ngIf="placeselection == 'donation'">
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <input type="number" matInput [(ngModel)]="mindonation" name="min_donation" placeholder="Min Donation" [min]="1">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <input type="number" matInput [(ngModel)]="maxdonation" name="max_donation" placeholder="Max Donation" [min]="1">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group m-form__group row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Enter text message" name="text" [(ngModel)]="text"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="m-portlet__foot m-portlet__foot--fit">
+        <div class="m-form__actions m-form__actions">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <m-spinner-button [options]="spinner" mat-raised-button color="primary" (click)="onSubmit();">Submit</m-spinner-button>&nbsp; &nbsp;
+              <button mat-raised-button type="reset">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

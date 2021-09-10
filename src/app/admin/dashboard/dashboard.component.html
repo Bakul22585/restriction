@@ -1,0 +1,275 @@
+<div class="row">
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-aqua">
+      <div class="inner">
+        <h3>{{NetBalance | currency: 'INR' : 'symbol' : '1.0-0'}}</h3>
+
+        <p>Net Balance</p>
+      </div>
+      <div class="icon">
+        <i class="far fa-chart-bar"></i>
+      </div>
+      <!-- <a [routerLink]="['/admin/fund']" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-green">
+      <div class="inner">
+        <h3>{{AvgBalance | currency: 'INR' : 'symbol' : '1.0-0'}}<sup style="font-size: 20px"></sup></h3>
+        <p>Average Donation</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-chart-pie"></i>
+      </div>
+      <!-- <a [routerLink]="['/admin/fund']" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        <h3>{{Family}}</h3>
+
+        <p># Of Family</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <!-- <a [routerLink]="['/admin/users']" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-red">
+      <div class="inner">
+        <h3>{{AllUserCount}}</h3>
+
+        <p># Of Total Users</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-user-tie"></i>
+      </div>
+      <!-- <a [routerLink]="['/admin/users']" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+    </div>
+  </div>
+  <!-- ./col -->
+</div>
+
+<div class="m-portlet">
+  <div class="m-portlet__body m-portlet__body--no-padding">
+    <div class="row m-row--no-padding m-row--col-separator-xl">
+      <div class="col-xl-12">
+        <div class="m-widget14">
+          <div class="m-widget14__header">
+            <h3 class="m-widget14__title">
+              Finance
+              <mat-button-toggle-group name="option" style="width: 40%;float: right;font-size: 1rem;">
+                <mat-button-toggle value="1" style="width: 25%" (click)="GetChartData(1)" >Last Month</mat-button-toggle>
+                <mat-button-toggle value="2" style="width: 25%" (click)="GetChartData(2)" >Last 6 Month</mat-button-toggle>
+                <mat-button-toggle value="3" style="width: 25%" (click)="GetChartData(3)" >Last Year</mat-button-toggle>
+                <mat-button-toggle value="4" style="width: 25%" (click)="randdatepicker.click();">Custom Date</mat-button-toggle>
+              </mat-button-toggle-group>
+              <input type="text" #randdatepicker placeholder="Daterangepicker" bsDaterangepicker style="float: right;right: 2%;border: 0px;padding: 0px;margin: 0px;width: 0px;" (bsValueChange)="GetChartData($event)">
+            </h3>
+          </div>
+          <div id="financechart" style="width: 100%; height: 370px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="m-portlet">
+  <div class="m-portlet__body m-portlet__body--no-padding">
+    <div class="row m-row--no-padding m-row--col-separator-xl">
+      <div class="col-xl-12">
+        <div class="m-widget14">
+          <div class="m-widget14__header">
+            <h3 class="m-widget14__title">
+              Event Vise Accounting
+              <mat-button-toggle-group name="option" style="width: 40%;float: right;font-size: 1rem;">
+                <mat-button-toggle value="1" style="width: 25%" (click)="GetEventChat(1)">Last Month</mat-button-toggle>
+                <mat-button-toggle value="2" style="width: 25%" (click)="GetEventChat(2)">Last 6 Month</mat-button-toggle>
+                <mat-button-toggle value="3" style="width: 25%" (click)="GetEventChat(3)">Last Year</mat-button-toggle>
+                <mat-button-toggle value="4" style="width: 25%" (click)="eventranddatepicker.click()">Custom
+                  Date</mat-button-toggle>
+              </mat-button-toggle-group>
+              <input type="text" #eventranddatepicker placeholder="Daterangepicker"
+                class="form-control col-3" bsDaterangepicker style="float: right;right: 2%;border: 0px;padding: 0px;margin: 0px;width: 0px;" (bsValueChange)="GetEventChat($event)">
+            </h3>
+            <span class="m-widget14__desc" style="width: 100%;font-family: 'Source Sans Pro',sans-serif;">
+              <div class="row">
+                <div class="col-md-3">
+                  <span>{{TotalEvent}}</span><br>
+                  <B>#Of Events </B>
+                </div>
+                <div class="col-md-3">
+                  <span>{{TotalEventDonation | currency: 'INR' : 'symbol' : '1.0-0'}}</span><br>
+                  <B>Donation </B>
+                </div>
+                <div class="col-md-3">
+                  <span>{{TotalEventExpence | currency: 'INR' : 'symbol' : '1.0-0'}}</span><br>
+                  <B>Expences </B>
+                </div>
+                <div class="col-md-3">
+                  <span>{{TotalEventDonation - TotalEventExpence | currency: 'INR' : 'symbol' : '1.0-0'}}</span><br>
+                  <B>Net Balance </B>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div id="eventchart" style="width: 100%; height: 370px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="m-portlet">
+  <div class="m-portlet__body m-portlet__body--no-padding">
+    <div class="row m-row--no-padding m-row--col-separator-xl">
+      <div class="col-xl-12">
+        <div class="m-widget14">
+          <div class="m-widget14__header">
+            <h3 class="m-widget14__title">
+              Donation
+            </h3>
+          </div>
+          <div id="chartdiv" style="width: 100%; height: 500px;font-family: sans-serif;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <m-portlet>
+      <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            Due Donation
+          </h3>
+        </div>
+      </ng-container>
+      <ng-container mPortletBody>
+        <perfect-scrollbar style="max-width: 100%; max-height: 228px;min-height: auto;">
+          <div class="table-responsive">
+            <table class="table" style="font-family: 'Source Sans Pro',sans-serif;">
+              <thead>
+                <tr>
+                  <th scope="col" style="font-weight: bold;">Event Name</th>
+                  <th scope="col" style="font-weight: bold;">User Name</th>
+                  <th scope="col" style="font-weight: bold;">Paid</th>
+                  <th scope="col" style="font-weight: bold;">Installment</th>
+                  <th scope="col" style="font-weight: bold;">Raimaing</th>
+                  <th scope="col" style="font-weight: bold;">Due Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let event of UpcomingDonation" [ngClass]="event.month <= 0 ? 'due_donation' : ''" >
+                  <th scope="row" style="font-weight: bold;">{{ event.event_name }}</th>
+                  <td>{{ event.first_name }} {{ event.last_name }} ({{ event.village_name }})</td>
+                  <td>{{ event.paid_amount | currency: 'INR' : 'symbol' : '1.0-0'}}</td>
+                  <td>{{ event.monthly_installment | currency: 'INR' : 'symbol' : '1.0-0'}}</td>
+                  <td>{{ event.remaining_amount | currency: 'INR' : 'symbol' : '1.0-0'}}</td>
+                  <td>{{ event.due_date | date: 'dd/MM/yyyy'}}</td>
+                </tr>
+                <tr *ngIf="UpcomingDonation.length == 0">
+                  <td colSpan="6" style="text-align: center;font-weight: bold;">Data is not available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </perfect-scrollbar>
+      </ng-container>
+    </m-portlet>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <m-portlet>
+      <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            Upcoming Events
+          </h3>
+        </div>
+      </ng-container>
+      <ng-container mPortletBody>
+        <perfect-scrollbar style="max-height: 228px;min-height: auto;">
+          <div class="table-responsive">
+            <table class="table" style="font-family: 'Source Sans Pro',sans-serif;">
+              <thead>
+                <tr>
+                  <th scope="col" style="font-weight: bold;">Event Name</th>
+                  <th scope="col" style="font-weight: bold;">Description</th>
+                  <th scope="col" style="font-weight: bold;">Handler Name</th>
+                  <th scope="col" style="font-weight: bold;">Place</th>
+                  <th scope="col" style="width: 146px;font-weight: bold;">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let event of UpcomingEvent">
+                  <th scope="row" style="font-weight: bold;">{{ event.event_name }}</th>
+                  <td>{{ event.description }}</td>
+                  <td>{{ event.first_name }} {{ event.last_name }} ({{ event.village_name }})</td>
+                  <td>{{ event.place }}</td>
+                  <td>{{ event.event_start_datetime| date: 'dd/MM/yyyy h:mm a' }}</td>
+                </tr>
+                <tr *ngIf="UpcomingEvent.length == 0">
+                  <td colSpan="5" style="text-align: center;font-weight: bold;">Data is not available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </perfect-scrollbar>
+      </ng-container>
+    </m-portlet>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <m-portlet>
+      <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            Upcoming Birthday
+          </h3>
+        </div>
+      </ng-container>
+      <ng-container mPortletBody>
+        <perfect-scrollbar style="max-height: 228px;min-height: auto;">
+          <div class="table-responsive">
+            <table class="table" style="font-family: 'Source Sans Pro',sans-serif;">
+              <thead>
+                <tr>
+                  <th scope="col" style="font-weight: bold;">User Name</th>
+                  <th scope="col" style="font-weight: bold;">Phone</th>
+                  <th scope="col" style="font-weight: bold;">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of UpcomingBirthday">
+                  <th scope="row" style="font-weight: bold;">{{ user.user_name }}</th>
+                  <td>{{ user.phone_no }}</td>
+                  <td>{{ user.birth_date | date: 'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr *ngIf="UpcomingBirthday.length == 0">
+                  <td colSpan="3" style="text-align: center;font-weight: bold;">Data is not available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </perfect-scrollbar>
+      </ng-container>
+    </m-portlet>
+  </div>
+</div>

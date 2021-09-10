@@ -1,0 +1,134 @@
+<div class="row">
+  <!-- <div class="col-xl-3 col-lg-4">
+    <div class="m-portlet m-portlet--full-height">
+      <div class="m-portlet__body">
+        <div [ngClass]="{'active_message_user': userId === 1 }" class="m-card-profile" (click)="GetProfile(1)" style="cursor: pointer;">
+          <div class="m-card-profile__title m--hide">
+            Your Profile
+          </div>
+          <div class="m-card-profile__pic">
+            <div class="m-card-profile__pic-wrapper">
+              <img src="https://pbs.twimg.com/profile_images/920063296387944449/71cqAAP3.jpg" alt="">
+            </div>
+          </div>
+          <div class="m-card-profile__details">
+            <span class="m-card-profile__name">Denish Sonani</span>
+            <a href="" class="m-card-profile__email m-link">denish.sonani@gmail.com</a>
+          </div>
+        </div>
+        <hr />
+        <div [ngClass]="{'active_message_user': userId === 2 }" class="m-card-profile" (click)="GetProfile(2)" style="cursor: pointer;">
+          <div class="m-card-profile__title m--hide">
+            Your Profile
+          </div>
+          <div class="m-card-profile__pic">
+            <div class="m-card-profile__pic-wrapper">
+              <img src="https://lh3.googleusercontent.com/-o_KJT_ADJAU/AAAAAAAAAAI/AAAAAAAABHE/oIr6Iy-D5uM/s640-il/photo.jpg"
+                alt="">
+            </div>
+          </div>
+          <div class="m-card-profile__details">
+            <span class="m-card-profile__name">Bhavik Moradiya</span>
+            <a href="" class="m-card-profile__email m-link">bhavik.moradiya@gmail.com</a>
+          </div>
+        </div>
+        <hr />
+        <div [ngClass]="{'active_message_user': userId === 3 }" class="m-card-profile" (click)="GetProfile(3)" style="cursor: pointer;">
+          <div class="m-card-profile__title m--hide">
+            Your Profile
+          </div>
+          <div class="m-card-profile__pic">
+            <div class="m-card-profile__pic-wrapper">
+              <img src="https://plus.google.com/_/focus/photos/public/AIbEiAIAAABDCM6hm46XiOLDLSILdmNhcmRfcGhvdG8qKDJjZjE3YTRjYTJmYmM4MjFiYWQ2Zjk4MjBmYWUzMmY4MWZkNTdhZTkwAUkqBZAM2eNr2L6q3xqUM2oisg_3?sz=128"
+                alt="">
+            </div>
+          </div>
+          <div class="m-card-profile__details">
+            <span class="m-card-profile__name">Chetan Nakum</span>
+            <a href="" class="m-card-profile__email m-link">chetan.nakum@gmail.com</a>
+          </div>
+        </div>
+        <hr />
+        <div [ngClass]="{'active_message_user': userId === 4 }" class="m-card-profile" (click)="GetProfile(4)" style="cursor: pointer;">
+          <div class="m-card-profile__title m--hide">
+            Your Profile
+          </div>
+          <div class="m-card-profile__pic">
+            <div class="m-card-profile__pic-wrapper">
+              <img src="https://naukrirecruiter.naukri.com/profilePic/getpic?pid=1474542822rp2908728_medium4" alt="">
+            </div>
+          </div>
+          <div class="m-card-profile__details">
+            <span class="m-card-profile__name">Yogesh Jalodara</span>
+            <a href="" class="m-card-profile__email m-link">yogi.jalodara@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="col-xl-12 col-lg-12">
+    <div class="m-portlet m-portlet--full-height m-portlet--tabs">
+      <div class="m-portlet__body">
+        <form class="m-form m-form--label-align-right" name="form" #f="ngForm" novalidate>
+          <div class="m-portlet__body">
+            <div class="m-form__section m-form__section--first">
+              <div class="m-form__heading">
+                <h3 class="m-form__heading-title">Personal Details</h3>
+              </div>
+              <div class="form-group m-form__group row">
+                <label class="col-lg-2 col-form-label">New Password:</label>
+                <div class="col-lg-6">
+                  <mat-form-field class="example-full-width">
+                    <input type="password" name="password" matInput placeholder="New Password" [(ngModel)]="password">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <label class="col-lg-2 col-form-label">Confirm Password:</label>
+                <div class="col-lg-6">
+                  <mat-form-field class="example-full-width">
+                    <input type="password" name="confirmPassword" matInput placeholder="Confirm Password" [(ngModel)]="confirmPassword">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <label class="col-lg-2 col-form-label">Upcoming Donation Installment Send Message Day</label>
+                <div class="col-lg-6">
+                  <mat-form-field class="example-full-width">
+                    <input type="number" name="updoinstsemeday" [min]="1" matInput placeholder="Set Day" [(ngModel)]="updoinstsemeday" required>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <label class="col-lg-2 col-form-label">Site Name</label>
+                <div class="col-lg-6">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" name="site_name" matInput placeholder="Name" [(ngModel)]="SiteName" required>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-group m-form__group row">
+                <label class="col-lg-2 col-form-label">Login Page Image:</label>
+                <div class="col-lg-6">
+                    <input type="file" (change)="onFileChange($event)">
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="m-form__seperator m-form__seperator--dashed"></div> -->
+          </div>
+          <div class="m-portlet__foot m-portlet__foot--fit">
+            <div class="m-form__actions m-form__actions">
+              <div class="row">
+                <div class="col-lg-12 text-center">
+                  <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>&nbsp; &nbsp;
+                  <button mat-raised-button type="reset">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

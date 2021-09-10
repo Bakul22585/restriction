@@ -1,0 +1,384 @@
+<!-- <div class="m-portlet">
+  <div class="m-portlet__head">
+    <div class="m-portlet__head-caption">
+      <div class="m-portlet__head-title">
+        <span class="m-portlet__head-icon m--hide">
+          <i class="la la-gear"></i>
+        </span>
+        <h3 class="m-portlet__head-text">
+          User
+        </h3>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-xl-3 col-lg-4">
+    <div class="m-portlet m-portlet--full-height">
+      <div class="m-portlet__body">
+        <div *ngFor="let user of main_member;let i=index;">
+          <div [ngClass]="{'active_message_user': ViewUserId === user.id }" class="m-card-profile" (click)="fillMainMemberData(user)">
+            <div class="m-card-profile__title m--hide">
+              Your Profile
+            </div>
+            <div class="m-card-profile__pic">
+              <!-- <div class="text-right">
+                <mat-icon class="DeleteUser" (click)="DeleteUser(user)" >clear</mat-icon>
+              </div> -->
+              <div class="m-card-profile__pic-wrapper">
+                <button ngfSelect [(files)]="files" accept="image/*" multiple="1" style="background-color: transparent;border: transparent;cursor: pointer;" (filesChange)="UpdateUserProfilePic()">
+                  <img src="{{ user.profile_pic ? user.profile_pic : 'http://temple.etechlab.in/assets/app/media/img/users/img_avatar.png' }}" alt="" style="width: 90px;height: 90px;">
+                </button>
+              </div>
+            </div>
+            <div class="m-card-profile__details">
+              <span class="m-card-profile__name" style="word-break: break-all;">{{user.first_name}} {{user.last_name}}</span>
+              <a href="javascript:" class="m-card-profile__email m-link" style="word-break: break-all;">{{user.email}}</a><br>
+              <a href="javascript:" class="m-card-profile__email m-link" (click)="onPreview(user);">Preview Card</a>
+            </div>
+          </div>
+          <hr />
+        </div>
+        
+        <div *ngFor="let user of sub_member;let i=index;">
+          <div [ngClass]="{'active_message_user': ViewUserId === user.id }" class="m-card-profile" (click)="fillMainMemberData(user)">
+            <div class="m-card-profile__title m--hide">
+              Your Profile
+            </div>
+            <div class="m-card-profile__pic">
+              <div class="text-right">
+                <mat-icon class="DeleteUser" (click)="DeleteUser(user)" >clear</mat-icon>
+              </div>
+              <div class="m-card-profile__pic-wrapper">
+                <button ngfSelect [(files)] = "files" accept="image/*" multiple="1" style="background-color: transparent;border: transparent;cursor: pointer;" (filesChange)="UpdateUserProfilePic()">
+                  <img src="{{ user.profile_pic ? user.profile_pic : 'http://temple.etechlab.in/assets/app/media/img/users/img_avatar.png' }}" alt="" style="width: 90px;height: 90px;">
+                </button>
+              </div>
+            </div>
+            <div class="m-card-profile__details">
+              <span class="m-card-profile__name" style="word-break: break-all;">{{user.first_name}} {{user.last_name}}</span>
+              <a href="javascript:" class="m-card-profile__email m-link">{{user.relation}}</a><br>
+              <a href="javascript:" class="m-card-profile__email m-link" style="word-break: break-all;">{{user.email}}</a><br>
+              <a href="javascript:" class="m-card-profile__email m-link" (click)="onPreview(user);">Preview Card</a>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div *ngFor="let newuser of addUser;let i=index;">
+          <div class="m-card-profile">
+            <div class="m-card-profile__title m--hide">
+              Your Profile
+            </div>
+            <div class="m-card-profile__pic">
+              <div class="text-right">
+                <mat-icon class="DeleteUser" (click)="DeleteAvatar(i)">clear</mat-icon>
+              </div>
+              <div class="m-card-profile__pic-wrapper">
+                <button ngfSelect [(files)] = "files" accept="image/*" multiple="1" style="background-color: transparent;border: transparent;cursor: pointer;">
+                  <img src="http://temple.etechlab.in/assets/app/media/img/users/img_avatar.png" alt="">
+                </button>
+              </div>
+            </div>
+            <div class="m-card-profile__details">
+              <span class="m-card-profile__name"></span>
+              <a href="" class="m-card-profile__email m-link"></a>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div class="m-card-profile">
+          <div style="text-align: center;">
+            <mat-icon (click)="AddUser()"  style="font-size: 80px !important;width: unset;height: unset;cursor: pointer;">add</mat-icon>
+          </div>
+        </div>
+        <!-- <div class="text-center">
+          <mat-spinner [diameter]="20" [ngClass]="{ 'm-portlet--body-progress' : viewLoading, 'm-portlet--body-progress-overlay' : loadingAfterSubmit }"></mat-spinner>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-9 col-lg-8">
+    <div class="m-portlet m-portlet--full-height m-portlet--tabs">
+      <form class="m-form m-form--label-align-right" [formGroup]="userForm">
+        <div class="m-portlet__body">
+          <div class="m-form__section m-form__section--first">
+            <div class="m-form__heading">
+              <h3 class="m-form__heading-title">Personal Details</h3>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">First Name:</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="first name" formControlName="first_name" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Middle Name:</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="middle name" formControlName="middle_name">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Last Name:</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="last name" formControlName="last_name" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Email:</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="email" autocomplete="off" type="email" formControlName="email">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Phone no.:</label>
+              <div class="col-lg-2">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Country Code" formControlName="country_code" required>
+                    <mat-option *ngFor="let country of Countries" [value]="country.id">
+                      {{country.phoneCode}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-4">
+                <mat-form-field class="example-full-width">
+                  <mat-icon matPrefix>local_phone</mat-icon>
+                  <input matInput placeholder="phone no" formControlName="phone_no" required numbersOnly maxlength="10">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Date of birth:</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="birth_date" [max]="currentData" required (focus)="picker.open();" (click)="picker.open();">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="m-form__group form-group row">
+              <label class="col-lg-2 col-form-label">Gender:</label>
+              <div class="col-lg-6">
+                <div class="m-radio-list">
+                  <mat-radio-group formControlName="gender" required>
+                    <p>
+                      <mat-radio-button value="1">Male</mat-radio-button>
+                    </p>
+                    <p>
+                      <mat-radio-button value="2">Female</mat-radio-button>
+                    </p>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Village:</label>
+              <div class="col-lg-6">
+                <ng-select class="custom" [items]="villages" bindLabel="village_name" bindValue="id" placeholder="Select Village *"
+                  formControlName="village_id" required></ng-select>
+                <!-- <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Select" formControlName="village_id" required>
+                    <mat-option *ngFor="let village of villages" [value]="village.village_name">{{village.village_name}}</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Role:</label>
+              <div class="col-lg-6">
+                <ng-select class="custom" [items]="roles" bindLabel="roles_name" bindValue="id" placeholder="Select Role *"
+                  formControlName="role_id" required></ng-select>
+                <!-- <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Select" formControlName="role_id" required>
+                    <mat-option *ngFor="let role of roles" [value]="role.role_name">{{role.role_name}}</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+              </div>
+            </div>
+      
+            <!-- <div class="form-group m-form__group row">
+                <label class="col-lg-2 col-form-label">Is main member?:</label>
+                <div class="col-lg-6">
+                  <mat-checkbox value="1" formControlName="is_main_member" [(ngModel)]="is_main" (change)="onChkChange($event);"
+                    #ref></mat-checkbox>
+                </div>
+              </div> -->
+      
+            <!-- <div class="form-group m-form__group row" *ngIf="members">
+              <label class="col-lg-2 col-form-label">Users:</label>
+              <div class="col-lg-6">
+                <ng-select placeholder="Select" formControlName="main_member_id">
+                  <ng-option [value]="'Ravi Bhai'">Ravi Bhai</ng-option>
+                  <ng-option [value]="'Kishan Bhai'">Kishan Bhai</ng-option>
+                  <ng-option [value]="'Ram Bhai'">Ram Bhai</ng-option>
+                </ng-select>
+              </div>
+            </div> -->
+      
+            <div class="form-group m-form__group row" *ngIf="is_main">
+              <label class="col-lg-2 col-form-label">Relation:</label>
+              <div class="col-lg-6">
+                <ng-select placeholder="Select" formControlName="relation">
+                  <ng-option [value]="'Grand Father'">Grand Father</ng-option>
+                  <ng-option [value]="'Grand Mother'">Grand Mother</ng-option>
+                  <ng-option [value]="'Father'">Father</ng-option>
+                  <ng-option [value]="'Mother'">Mother</ng-option>
+                  <ng-option [value]="'Husband'">Husband</ng-option>
+                  <ng-option [value]="'Wife'">Wife</ng-option>
+                  <ng-option [value]="'Brother'">Brother</ng-option>
+                  <ng-option [value]="'Sister'">Sister</ng-option>
+                  <ng-option [value]="'Son'">Son</ng-option>
+                  <ng-option [value]="'Daughter'">Daughter</ng-option>
+                </ng-select>
+                <!-- <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Select" formControlName="relation">
+                    <mat-option value="Father">Father</mat-option>
+                    <mat-option value="Mother">Mother</mat-option>
+                    <mat-option value="Husband">Husband</mat-option>
+                    <mat-option value="Wife">Wife</mat-option>
+                    <mat-option value="Brother">Brother</mat-option>
+                    <mat-option value="Sister">Sister</mat-option>
+                    <mat-option value="Son">Son</mat-option>
+                    <mat-option value="Daughter">Daughter</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+              </div>
+            </div>
+          </div>
+      
+          <div class="m-form__seperator m-form__seperator--dashed"></div>
+      
+          <div class="m-form__section m-form__section--last">
+            <div class="m-form__heading">
+              <h3 class="m-form__heading-title">Address</h3>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Block Number</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Block Number" formControlName="block_no" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Address</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Address" formControlName="address" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Country</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <mat-select placeholder="Country" formControlName="country" required (valueChange)="GetStates($event)">
+                    <mat-option *ngFor="let country of Countries" [value]="country.id">
+                      {{country.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">State</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <!-- <input matInput placeholder="State" formControlName="state" required> -->
+                  <mat-select placeholder="State" formControlName="state" required (valueChange)="GetCity($event)">
+                    <mat-option *ngFor="let State of States" [value]="State.id">
+                      {{State.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">City</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <!-- <input matInput placeholder="City" formControlName="city" required> -->
+                  <mat-select placeholder="City" formControlName="city" required>
+                    <mat-option *ngFor="let city of Cities" [value]="city.id">
+                      {{city.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Area</label>
+              <div class="col-lg-6">
+                <ng-select [items]="areas" bindLabel="area_name" bindValue="id" formControlName="area_id" required
+                  placeholder="Select Area *">
+                </ng-select>
+                <!-- <mat-form-field class="example-full-width">
+                              <mat-select placeholder="Select" formControlName="area_id" required>
+                                <mat-option *ngFor="let area of areas" [value]="area.area_name">{{area.area_name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field> -->
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label class="col-lg-2 col-form-label">Postcode</label>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Postcode" formControlName="postcode" required pattern="^[1-9][0-9]{5}$">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+      
+          <!-- <div class="m-form__seperator m-form__seperator--dashed"></div>
+      
+          <div class="m-form__section m-form__section--last" *ngIf="userId > 0">
+            <div class="m-form__heading">
+              <h3 class="m-form__heading-title">Bage Information</h3>
+            </div>
+            <div class="form-group m-form__group row">
+                <label for="example-text-input" class="col-lg-2 col-form-label">Profile Photo</label>
+                <div class="col-lg-6">
+                  <mat-form-field>
+                    <ngx-mat-file-input formControlName="profile_pic" placeholder="Upload Image"></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon>
+                  </mat-form-field>
+                </div>
+              </div>
+            <div class="form-group m-form__group row">
+              <label for="example-text-input" class="col-lg-2 col-form-label">Barcode Display</label>
+              <div class="col-lg-6">
+                <qrcode [qrdata]="UserQrCode" [size]="256" [level]="'M'"></qrcode>
+              </div>
+            </div>
+            <div class="form-group m-form__group row">
+              <label for="example-text-input" class="col-lg-2 col-form-label">ID preview</label>
+              <div class="col-lg-6">
+                <button type="button" class="btn btn-accent m-btn m-btn--air m-btn--custom" (click)="onPreview();">Preview</button>&nbsp;&nbsp;
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <div class="m-portlet__foot m-portlet__foot--fit">
+          <div class="m-form__actions m-form__actions">
+            <div class="row">
+              <div class="col-lg-6 text-center">
+                <button mat-raised-button color="primary" (click)="onSubmit();">Submit</button>&nbsp; &nbsp;
+                <button mat-raised-button type="reset">Reset</button>&nbsp;&nbsp;
+                <button mat-raised-button (click)="onCancel()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

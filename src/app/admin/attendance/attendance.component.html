@@ -1,0 +1,203 @@
+<div class="row">
+  <div class="col-xl-12 col-lg-12">
+    <div class="m-portlet m-portlet--full-height m-portlet--tabs">
+      <div class="m-portlet__body">
+        <mat-form-field class="example-full-width">
+          <input type="text" [(ngModel)]="Searchevent" matInput placeholder="Search" (keyup)="SearchEvent($event.target.value)">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-3 col-lg-4">
+    <div class="m-portlet m-portlet--full-height">
+      <div class="m-portlet__body">
+        <div class="m-card-profile">
+          <div class="border" *ngFor="let event of EventData">
+            <div [ngClass]="{'active_message_user': ActiveEventId === event.id }" class="m-card-profile"
+              (click)="SetActive(event)">
+              <div class="m-card-profile">
+                <div class="m-card-profile__details">
+                  <span class="m-card-profile__name" style="word-break: break-all;">{{event.event_name}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="EventData.length == 0">
+          <div class="m-card-profile" style="cursor: default !important;">
+            <div class="m-card-profile" style="cursor: default !important;">
+              <div class="m-card-profile__details">
+                <span class="m-card-profile__name" style="word-break: break-all;">No event available</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-9 col-lg-8">
+    <m-portlet [options]="{headLarge: true}" [loading$]="dataSource.loading$">
+      <!-- PORTLET LOADING | Binded to TABLE Datasource -->
+      <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+    
+      <!-- start::Header (attributtes: mPortletHeadTitle|mPortletHeadTools) -->
+      <ng-container mPortletHeadTitle>
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">
+            <span>{{ActiveEventName}}</span>
+          </h3>
+        </div>
+        <!-- For localisations we use @ngx-translate | See off. documentations => https://github.com/ngx-translate/core -->
+        <!-- Localization libraries (en/fr) are here => '../../../.././config/i18n/en.ts|fr.ts' -->
+      </ng-container>
+      <ng-container mPortletHeadTools>
+        <button mat-button disabled style="color: #000;">
+          Invited<br> {{ Invite }}
+        </button>
+        <button mat-button disabled style="color: #000;">
+          Attended<br> {{ Attend }}
+        </button>
+      </ng-container>
+      <ng-container mPortletBody>
+        <div class="mat-table__wrapper">
+          <mat-table id="PrintReport" class="lmat-elevation-z8" #table [dataSource]="dataSource"
+            matSort matSortActive="id" matSortDirection="desc" matSortDisableClear style="min-width: 100%;">
+    
+            <ng-container matColumnDef="serial_id">
+              <mat-header-cell *matHeaderCellDef> Serial No </mat-header-cell>
+              <mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="first_name">
+              <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.first_name}}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="last_name">
+              <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.last_name}}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="relation">
+              <mat-header-cell *matHeaderCellDef>Relation</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.user_relation}}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="phone_no">
+              <mat-header-cell *matHeaderCellDef>Phone no.</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.phone_no}}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="village_id">
+              <mat-header-cell *matHeaderCellDef>Village</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.village_name}}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="role_id">
+              <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.roles_name}}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="area_id">
+              <mat-header-cell *matHeaderCellDef>Area</mat-header-cell>
+              <mat-cell *matCellDef="let user">
+                {{user.area_name}}
+              </mat-cell>
+            </ng-container>
+    
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    
+            <mat-row *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="row.is_main_member == 1 ? 'main_member' : ''"></mat-row>
+          </mat-table>
+          <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+          <!-- Message for empty data  -->
+        </div>
+    
+        <!-- start: BOTTOM -->
+        <div class="mat-table__bottom">
+          <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+          <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+          <!-- MATERIAL PAGINATOR | Binded to dasources -->
+          <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+          <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+            [showFirstLastButtons]="true" (page)="SetPagination($event)"></mat-paginator>
+        </div>
+      </ng-container>
+      <!-- end: BOTTOM -->
+    </m-portlet>
+    <!-- <div class="m-portlet m-portlet--full-height m-portlet--tabs">
+      <div class="mat-table__wrapper">
+        <mat-table id="PrintReport" class="lmat-elevation-z8" #table [dataSource]="dataSource"
+          matSort matSortActive="id" matSortDirection="desc" matSortDisableClear style="min-width: 100%;">
+      
+          <ng-container matColumnDef="serial_id">
+            <mat-header-cell *matHeaderCellDef> Serial No </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index;">{{ SerialNumber + i}}</mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="first_name">
+            <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              {{user.first_name}}
+            </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="last_name">
+            <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              {{user.last_name}}
+            </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="phone_no">
+            <mat-header-cell *matHeaderCellDef>Phone no.</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              {{user.phone_no}}
+            </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="village_id">
+            <mat-header-cell *matHeaderCellDef>Village</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              {{user.village_name}}
+            </mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="area_id">
+            <mat-header-cell *matHeaderCellDef>Area</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              {{user.area_name}}
+            </mat-cell>
+          </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      
+          <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="row.is_main_member == 1 ? 'main_member' : ''">
+          </mat-row>
+        </mat-table>
+        <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+      </div>
+      <div class="mat-table__bottom">
+        <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+          [showFirstLastButtons]="true" (page)="SetPagination($event)"></mat-paginator>
+      </div>
+    </div> -->
+  </div>
+</div>
